@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  poster_url: MyText
+  trailer_url: MyText
+  release_date: 2014-10-30
+  tomatometer: 1
+  metascore: 1
+  imdb_rating: 9.99
+  audience: 1
+  rt_url: MyText
+  mc_url: MyText
+  imdb_url: MyText
+  order: 1
+
+two:
+  title: MyString
+  poster_url: MyText
+  trailer_url: MyText
+  release_date: 2014-10-30
+  tomatometer: 1
+  metascore: 1
+  imdb_rating: 9.99
+  audience: 1
+  rt_url: MyText
+  mc_url: MyText
+  imdb_url: MyText
+  order: 1

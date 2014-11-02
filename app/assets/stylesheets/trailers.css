@@ -1,0 +1,226 @@
+/* layout
+------------------------*/
+body { background:#f2f2f2; }
+
+#container { padding-top:0; }
+
+.grid2col .column.first { width:781px; float:left; }
+.grid2col .column.last { width:188px; float:right; }
+
+#content { padding:0; color:#555; }
+
+/* content
+------------------------*/
+#main a { color:#666; text-decoration:none; outline:none; }
+#main a:hover { text-decoration:underline; }
+
+#main .clearfix { zoom:1; }
+#main .clearfix:after { content:'.'; height:0; visibility:hidden; display:block; clear:both; }
+
+
+#main #bigpromo { position:relative; background:#fff; width:980px; height: 180px; margin-bottom: 10px;}
+#main #bigpromo .promo { position:absolute; top:0; height:200px; }
+
+#main #promos { position:relative; }
+#main #promos .promo { position:absolute; top:300; height:140px; }
+#main #promos #promofader1 { left:0px; }
+#main #promos #promofader2 { left:470px; }
+#main #promos #promofader3 { left:940px; }
+#main #promos .promo a { position:absolute; top:0; left:0; display:block; width:248px; height:220px; }
+#main #promos .promo a.first { z-index:1; }
+
+#main .box { width:743px; padding-right:40px; _padding:0; margin:242px -1px 0; background:url(http://trailers.apple.com/trailers/home/images/contentbox_bg20080625.gif) repeat-y 0 0; }
+#main .box .bottombox { width:743px; padding:0 20px; background:url(http://trailers.apple.com/trailers/home/images/contentbox_bgbottom20080625.gif) no-repeat 0 100%; }
+
+/* sort nav is the gray title bar */
+#sortnav { height:30px; padding:8px 10px 8px 70px; margin:0 -20px -8px; position:relative; zoom:1; z-index:99; -webkit-user-select:none; background:url(http://trailers.apple.com/trailers/home/images/trailers-sortingbar.gif) no-repeat 0 0; }
+
+/* view options selection box */
+#sortnav #views { position:absolute; left:8px; top:6px; }
+#sortnav #views a { display:block; float:left; cursor:pointer; background-position:0 -21px; text-indent:-9999px; overflow:hidden; }
+
+#sortnav #views a.view-poster { width:28px; height:21px; background:url(http://trailers.apple.com/trailers/home/images/views_poster20080703.gif) no-repeat 0 -21px; }
+#sortnav #views a.view-textfourcolumn { width:28px; height:21px; background:url(http://trailers.apple.com/trailers/home/images/views_text20080703.gif) no-repeat 0 -21px; }
+#sortnav #views a:hover { background-position:0 -42px !important; }
+
+#sortnav #views a.active,
+#sortnav #views a.active:hover { background-position:0 -63px !important; cursor:default; }
+
+#sortnav #views a.disabled, #sortnav #views a.disabled:hover, 
+#sortnav #views a.active.disabled, #sortnav #views a.active.disabled:hover { background-position:0 0 !important; cursor:default; }
+
+/* sort nav section triggers */
+#sortnav ul,
+#sortnav ul li { display: inline; }
+#sortnav ul li a { font: bold .9167em/19px helvetica-neue, helvetica, arial, sans-serif; display:block; float:left; height:18px; margin-top: -1px; padding: 0 9px; text-decoration: none; -webkit-transition: color .15s linear; *padding:0; *width: 95px; *text-align: center; *margin-right: -3px; }
+#sortnav ul li#sn-exclusive a,
+#sortnav ul li#sn-justhd a,
+#sortnav ul li#sn-genres a { *background-position: 0 -17px; *width: 70px; }
+
+#sortnav ul li a:hover { color: #303030; text-decoration: none; }
+#sortnav ul li a.active,
+#sortnav ul li a.active:hover { cursor:default; background-color: #8b8b8b; background: -webkit-gradient(linear, left bottom, left top, color-stop(0.25, rgb(170,170,170)), color-stop(1, rgb(139,139,139))); background: -moz-linear-gradient(center bottom, rgb(170,170,170) 25%, rgb(139,139,139) 100%) !important; color: #fff; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; text-decoration: none; *background: transparent url(http://trailers.apple.com/trailers/home/images/sortnav.png) no-repeat 0 1px; }
+
+/* sort nav quickfind search box */
+#quickfind { position:absolute; width:200px; top:6px; right:8px; }
+#quickfind .search-wrapper input.prettysearch { *margin-left:20px; }
+#quickfind div.searching { display:none; position:absolute; width:11px; height:11px; top:4px; right:4px; z-index:10; background:url(http://trailers.apple.com/trailers/home/images/seach_spinner20080725.gif) no-repeat 0 0; }
+#quickfind.searching .searching { display:block; }
+
+#quickfind .callout { position:absolute; width:227px; top:15px; left:-86px; font-size:11px; color:#111; font-weight:bold; overflow:hidden; }
+#quickfind .callout .relative { position:relative; padding:0 0 7px; }
+#quickfind .callout .padder { width:197px; padding:2.3em 12px 2em 18px; _padding-bottom:2px; background:url(http://trailers.apple.com/trailers/home/images/searchcallout_bg.png) no-repeat 0 0; behavior:url(/global/scripts/lib/iepngfix.htc); }
+#quickfind .callout .bottomcap { position:absolute; width:227px; height:7px; bottom:0; left:0; font-size:1px; background:url(http://trailers.apple.com/trailers/home/images/searchcallout_bgbottom.png) no-repeat; behavior:url(/global/scripts/lib/iepngfix.htc); }
+
+#quickfind .callout p { margin-bottom:.6em; }
+
+#quickfind .callout .noshow { color:#444; float:right; font-weight:normal; padding-right:18px; font-size:9px; cursor:pointer; background:url(http://trailers.apple.com/trailers/home/images/searchcallout_close.png) no-repeat 100% 55%; _background-image:url(http://trailers.apple.com/trailers/home/images/searchcallout_close.gif); }
+#quickfind .callout .noshow:hover { text-decoration:underline; }
+
+#javascriptMessage {margin: 120px; text-align: center;}
+
+/* trailer gallery */
+#trailers { min-height:276px; _height:276px; margin:0 -20px; padding:8px 5px 8px 24px; }
+#trailers.loading {background:url(http://trailers.apple.com/trailers/home/images/waitanimation.gif) 50% 120px no-repeat;}
+#trailers.init { text-align: center; font-size: 14px; line-height: 360px; }
+#trailers div { position:relative; width:100%; min-height:235px; _height:235px; background:#fff; }
+#trailers div div { position:static; width:auto; min-height:0; _height:auto; background:transparent; }
+#trailers .grid3col .column { width:32%; }
+#trailers .grid4col .column { width:23%; }
+
+#trailers li { float:left; width:136px; min-height:235px; _height:250px; margin:0 13px 8px 0; padding-bottom:15px; _padding-bottom:1px; color:#949494; font-size:10px; font-weight:bold; }
+#trailers li a { color:#2971a7; }
+#trailers li a:hover { text-decoration:none; }
+#trailers li a:visited { color:#666; }
+
+#trailers li img { width:134px; height:193px; margin:0 0 5px; padding:0; border:1px solid #a8a8a8; background:#ededed; }
+#trailers li.exclusive img { border-color:#f17308; }
+
+#trailers li h3 { font-size: 11px; width:100%; white-space:nowrap; overflow:hidden; padding-bottom: 1em; }
+#trailers li.hd h3,
+#trailers li.exclusive h3,
+#trailers li.itunes h3 { padding-bottom: 0em; }
+#trailers li .hd { float:left; width:20px; height:11px; margin-right:5px; text-indent:-9999px; font-size:1px; }
+#trailers li .exclusive { float:left; width:44px; height:11px; margin-right:5px; text-indent:-9999px; font-size:1px; background:url(http://trailers.apple.com/trailers/home/images/icon_exclusive_20111010.png) no-repeat 0 0; }
+#trailers li .itunes { float:left; margin:-4px 0; padding-left:16px; font-weight:normal; color:#949494 !important; background:url(http://trailers.apple.com/trailers/home/images/icon_itunes20080728.gif) no-repeat 0 50%; }
+
+#trailers .textview li img,
+#trailers .studiolist li img { width:auto; height:auto; margin:0 0 -1px 6px; border:none; }
+#trailers .studiolist li .multi,
+#trailers .textview li .multi { color:#888; }
+#trailers .studiolist li .itunes,
+#trailers .textview li .itunes { float:none; display:block; margin:1px 0 0; font-size:.8em; }
+
+#trailers .studiolist { font-size:11px; line-height:1.3em; }
+#trailers .studiolist h4 a { font-size:11px; color:#333; }
+#trailers .studiolist li { float:none; margin:0; padding:0; min-height:0; height:auto; font-weight:normal; font-size:11px; }
+
+#trailers .textview { margin-top:8px; line-height:1.3em; }
+#trailers .textview li { float:none; width:80%; margin:0; padding:0; min-height:40px; height:auto; font-weight:normal; font-size:12px; margin-bottom:3px; }
+#trailers .textview li small { display:block; font-size:.8em; }
+
+#trailers #nomatch { width:136px; height:195px; margin:2.3em auto 0; text-indent:-9999px; background:url(http://trailers.apple.com/trailers/home/images/search_nomatch20080729.gif) no-repeat 0 0; }
+
+/* page navigation */
+#trailers .pagenav { clear:both; margin-right:23px; margin-bottom:10px; font-size:11px; text-align:right; color:#666; }
+#trailers .pagenav a.previous { color:#333; text-decoration:none; padding-left:9px; background:url(http://trailers.apple.com/trailers/home/images/arrow_previous20070611.gif) no-repeat 0 .3em; }
+#trailers .pagenav a.next { color:#333; text-decoration:none; padding-right:8px; background:url(http://trailers.apple.com/trailers/home/images/arrow_next20070611.gif) no-repeat 100% .3em; }
+
+#trailers .pagenav .pages { display:inline; padding:0 2px; }
+#trailers .pagenav .pages a { padding:0 4px; border-right:1px solid #aaa; color:#555; }
+#trailers .pagenav .pages a.last { border-right:0; width:auto !important; float:none !important; background:none; }
+#trailers .pagenav .pages .active { font-weight:bold; color:#7a869d; text-decoration:none; font-size:1.3em; cursor:default; }
+
+#trailers .pagenav a.disabled { opacity:0.5; filter:alpha(opacity=50); pointer-events: none; }
+#trailers .pagenav a.disabled:hover { text-decoration:none; cursor:default; }
+
+/* email link below box */
+#email { margin-left:6px; margin-top:15px; color:#888; }
+
+/* sidebar
+------------------------*/
+#main .sidebox { position:relative; padding:0 12px; margin:0 0 1em; font-size:11px; color:#555; line-height:1em; background:url(http://trailers.apple.com/trailers/images/sidebox_bg20080730.gif) repeat-y; }
+#main .sidebox .bottomcap { position:relative; width:188px; height:6px; margin:-6px -12px 0; font-size:1px; background:url(http://trailers.apple.com/trailers/images/sidebox_bottomcap20080730.gif) no-repeat; }
+
+#main .sidebox h2 { padding-left:16px; font-size:12px; height:28px; line-height:28px; color:#fff; font-weight:bold; background:url(http://trailers.apple.com/trailers/images/sidebox_topcap20080730.gif) no-repeat; }
+#main .sidebox h2,
+#main .sidebox h2 a { display:block; margin:0 -12px; color:#fff;  }
+#main .sidebox h2 a:hover { text-decoration:none; }
+#main .sidebox h2 a { margin:0; background:url(http://trailers.apple.com/trailers/images/sidebox_topcap_arrow20080730.gif) no-repeat 148px 8px; }
+
+#main .sidebox h3 { font-size:11px; color: #666; margin: -3px -10px -3px -10px; padding: 4px 0px 4px 12px; background:#D9D9D9;}
+#main .sidebox h3 a { position: absolute; left:130px; color: #666; margin-right: 10px; font-weight: normal;}
+
+#main .sidebox ul,
+#main .sidebox ol { margin-bottom:12px; }
+#main .sidebox a.more { display:block; clear:both; height:13px; margin:0 -2px 8px; padding:8px 18px 5px 0; font-size:10px; color:#aaa; line-height:13px; border-top:1px solid #c2c2c2; background:url(http://trailers.apple.com/trailers/images/sidebox_arrow20111010.png) no-repeat right 8px; }
+#main .sidebox a.line { display:block; clear:both; height:0px; margin:0 0px 0px; padding:0px 0px 0px 0; font-size:24px; color:#aaa; line-height:0px; border-top:1px solid #c2c2c2;}
+
+
+
+#main .sidebox#weekendboxoffice ul li, #main .sidebox#openingthisweek ul li { margin:0; padding:3px 14px 7px; color:#555; font-weight:bold; }
+#main .sidebox#weekendboxoffice ul, #main .sidebox#openingthisweek ul { margin:5px -10px 4px; padding:0 0 1px; font-size:11px; list-style-type:none; }
+
+#main .sidebox#seeitonitunes img.icon { float:left; margin:10px 15px 1.6em 0; position:relative; }
+#main .sidebox#seeitonitunes span { display:block; margin:1.6em 0 0; }
+
+#main .sidebox#newsoundtracks ul li a { clear:both; display:block; color:#555; }
+#main .sidebox#newsoundtracks ul li img { border:1px solid #a8a8a8; margin-top:8px; float:left; }
+#main .sidebox#newsoundtracks ul li strong { margin-top:18px; margin-bottom:2px; width:98px; float:right; }
+#main .sidebox#newsoundtracks ul li span { float:right; text-align:left; width:98px; }
+
+#main .sidebox.itmslist img { border:1px solid #a8a8a8; margin-top:-15px; }
+#main .sidebox.itmslist ol * { color:#555; }
+#main .sidebox.itmslist ol li span { zoom:1; display:block; font-weight:normal; }
+#main .sidebox.itmslist ol li a { display:block; padding-top:10px; }
+
+/* productheader
+------------------------*/
+#productheader.trailers { border:0; padding-top:0; height: 40px; width: 980px; margin: 0; }
+#productheader.trailers h2 a { width:276px; height:27px; background:url(http://trailers.apple.com/trailers/home/images/itunes-movie-trailers-title.png) no-repeat 0 0; margin-left: -5px; }
+#productheader.trailers ul li a { color:#333; }
+#productheader.trailers ul li a:hover { color:#08c !important; }
+/*#productheader.trailers ul li#pn-downloaditunes a { margin-right: 0px;}*/
+
+
+/* PRODUCTHEADER */
+#productheader { position: relative; padding: 50px 0 4px; overflow: hidden; width: 980px; margin: 0 auto 13px; *height: 39px;}
+#productheader h1, 
+#productheader h2 { height: 30px; width: 275px; line-height: 32px; display: inline; float: left; margin: 1px 0 6px 8px; padding: 0; margin-bottom: 10px; font-size: 2em; margin-bottom:0.3em; }
+#productheader h1 a, 
+#productheader h2 a { line-height: 32px; background-position: 0 0; background-repeat: no-repeat; color: #000; display: block; font-weight: normal; height: 32px; position: relative; outline: none; text-decoration: none; text-indent: -9999px; background-image: url(http://trailers.apple.com/global/images/body-white-title.png); }
+
+#productheader ul { display: inline; float: right; margin: 0; }
+#productheader ul li { display: inline; }
+#productheader ul li strong { color: #ff8700; float: left !important; margin-top: 1em; margin-left: 30px; margin-right: 8px; padding: 0; text-decoration: none;}
+
+#productheader ul li a { color: #000; float: left !important; margin-top: 1em; margin-left: 30px; margin-right: 8px; padding: 0; text-decoration: none; }
+#productheader ul li a:hover { color: #08c; }
+
+
+/* PRETTY SEARCH */
+input.prettysearch { width:200px; height: 16px; background: url(http://trailers.apple.com/trailers/global/elements/prettysearch/searchfield_repeat.png) center top repeat-x; border: 0px; margin: 0; padding: 3px 0 0 0; font: 11px "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; }
+.search-wrapper { position: relative; width: 200px; }
+.search-wrapper input.prettysearch { width: 171px; margin-left: 20px; *margin-top:-1px; *margin-right:-2px; *margin-left:10px; }
+.search-wrapper .left { display: block; position: absolute; left: 0; top: 0; width: 20px; height: 19px; background: url(http://trailers.apple.com/trailers/global/elements/prettysearch/searchfield_leftcap.png) left top no-repeat; }
+.search-wrapper .right { display: block; position: absolute; right: 0; top: 0; width: 10px; height: 19px; background: url(http://trailers.apple.com/trailers/global/elements/prettysearch/searchfield_rightcap.png) right top no-repeat; }
+.search-wrapper.empty.blurred input { color: #7e7e7e; }
+.search-wrapper .reset { position: absolute; width: 11px; height: 11px; overflow:hidden; z-index: 1; right: 4px; top: 4px; background: url(http://trailers.apple.com/trailers/global/elements/prettysearch/close.gif); display: block; cursor: pointer; _cursor:hand; }
+.search-wrapper.empty .reset { display: none; }
+label .prettyplaceholder { display: block; overflow: hidden; text-indent: -9999px; height: 0; width: 0;}
+
+#globalfooter .gf-sosumi { margin-top: 0; padding-bottom: 40px; }
+
+body.ipad { font-size: 17px; }
+body.ipad #trailers li a,
+body.ipad #main .sidebox li,
+body.ipad #main .sidebox li a strong { font-size: 14px; line-height: 1.2em; overflow: hidden; width: 100%; display: block; text-overflow: ellipsis; white-space: nowrap; }
+body.ipad .sosumi,
+body.ipad #trailers .pagenav a,
+body.ipad a.more { font-size: 14px !important; }
+body.ipad .topitunes a { line-height: .25em !important; }
+body.ipad .topitunes a:last-child { padding-bottom: 10px; }
+body.ipad #main .sidebox ul li:first-child { padding-top: .7em !important; }
+body.ipad #globalfooter .gf-sosumi { border-top: none; }
+body.ipad #sortnav ul li a { font-size: 13px; }
+
