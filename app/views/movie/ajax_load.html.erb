@@ -1,0 +1,69 @@
+<div id="loading_page"></div>
+<script type="text/javascript">
+  var opts = {
+    lines: 13, // The number of lines to draw
+    length: 20, // The length of each line
+    width: 10, // The line thickness
+    radius: 30, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#000', // #rgb or #rrggbb or array of colors
+    speed: 1, // Rounds per second
+    trail: 60, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent
+  };
+  var target = document.getElementById('loading_page');
+  var spinner = new Spinner(opts).spin(target);
+</script>
+
+<% content_for(:head) do %>
+	<%= render "scripts" %>
+<% end %>
+
+<% content_for(:head) do %>
+	<% javascript_tag do 
+		%>
+
+ // register event listeners on the Ajax requests to show/hide the processing indicator
+ Ajax.Responders.register({
+    onCreate: function() {
+  if (Ajax.activeRequestCount === 1) {
+    $('loading_page').show();
+   }
+    },
+    onComplete: function() {
+   if (Ajax.activeRequestCount === 0) {
+    $('loading_page').hide();
+   }
+    }
+ });
+
+new Ajax.Request('/movie/display_page', {
+  onSuccess: function(response) {
+    $('index').insert(response.responseText);
+
+    //For some reason this does work
+	var promoChildren = $A($$('#promofader1 a')); 
+	new AC.CrossfadeQueue(promoChildren, 'promofader1', 8, 'fader1', .5, .5);
+	var promoChildren = $A($$('#promofader2 a')); 
+	new AC.CrossfadeQueue(promoChildren, 'promofader2', 8, 'fader2', .5, .5);
+
+    /* But this does NOT
+    Event.observe(window, 'load', function() { var promoChildren = $A($$('#promofader1 a')); new AC.CrossfadeQueue(promoChildren, 'promofader1', 8, 'fader1', .5, .5); }); 
+	Event.observe(window, 'load', function() { var promoChildren = $A($$('#promofader2 a')); new AC.CrossfadeQueue(promoChildren, 'promofader2', 8, 'fader2', .5, .5); });
+	*/
+	
+  }, 
+  onFailure: function() { alert('Something went wrong...'); }, 
+  method: 'get', 
+  evalJS: false
+});
+
+<% end 
+end %>

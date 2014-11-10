@@ -1,8 +1,10 @@
 function one(){
 	var prev = document.getElementById("navprev");
 	prev.className = "previous disabled";
+	prev.setAttribute("disabled", "");
 	var last = document.getElementById("navnext");
 	last.className = "next";
+	last.removeAttribute("disabled");
 
 	//Also we must make the first one active 
 	var a1 = document.getElementById("a1");
@@ -29,8 +31,10 @@ function two(){
 
 	var prev = document.getElementById("navprev");
 	prev.className = "previous";
+	prev.removeAttribute("disabled");
 	var last = document.getElementById("navnext");
 	last.className = "next";
+	last.removeAttribute("disabled");
 
 	//Also we must make the first one active 
 	var a2 = document.getElementById("a2");
@@ -57,8 +61,10 @@ function two(){
 function three(){
 	var prev = document.getElementById("navprev");
 	prev.className = "previous";
+	prev.removeAttribute("disabled");
 	var last = document.getElementById("navnext");
 	last.className = "next disabled";
+	last.setAttribute("disabled", "");
 
 	//Also we must make the first one active 
 	var a2 = document.getElementById("a2");

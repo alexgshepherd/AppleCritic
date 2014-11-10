@@ -131,7 +131,7 @@ body { background:#f2f2f2; }
 #trailers .pagenav .pages a.last { border-right:0; width:auto !important; float:none !important; background:none; }
 #trailers .pagenav .pages .active { font-weight:bold; color:#7a869d; text-decoration:none; font-size:1.3em; cursor:default; }
 
-#trailers .pagenav a.disabled { opacity:0.5; filter:alpha(opacity=50); pointer-events: none; }
+#trailers .pagenav a[disabled].disabled { opacity:0.5; filter:alpha(opacity=50); pointer-events: none; }
 #trailers .pagenav a.disabled:hover { text-decoration:none; cursor:default; }
 
 /* email link below box */

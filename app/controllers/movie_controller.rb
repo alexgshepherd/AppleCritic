@@ -9,7 +9,10 @@ class MovieController < ApplicationController
 	APPLE_SITE = "http://trailers.apple.com"
 	FEED_LENGTH = 80
 
-	http_basic_authenticate_with name: ENV["USERNAME"], password: ENV["PASSWORD"], only: :display_page
+	http_basic_authenticate_with name: ENV["USERNAME"], password: ENV["PASSWORD"], only: :ajax_load
+
+	def ajax_load
+	end	
 
 	def trim_title(title)
 		title = title.strip
@@ -142,7 +145,7 @@ class MovieController < ApplicationController
 	def remove_garbage
 		remove_script_includes
 		remove_css_includes
-		remove_most_pop
+		remove_most_pop 
 		remove_sortnav
 	end
 
@@ -201,7 +204,7 @@ class MovieController < ApplicationController
 
 	def write_page
 		File.open("#{Rails.root}/tmp/trailers.apple.com/index.html",
-							'w') {|f| f.print(@page.to_html)}
+							'w') {|f| f.print(@page.at_css("body").to_html)}
 	end
 
 	def put_time
@@ -240,11 +243,16 @@ class MovieController < ApplicationController
 
 	def display_page
 		#This is the central method
-		wipe_temp  
+		#wipe_temp  
 		fetch_page
 		load_html
 		modify_page
-		write_page
-		render "tmp/trailers.apple.com/index.html"
+		#write_page
+
+		#@page.to_html
+		render layout: false, body: @page.at_css("body").children.to_html
+		#render layout: false, body: "Hi"
+		#render "tmp/trailers.apple.com/index.html" #This is rendered in the body of the HTML
+		#render html: @page.at_css("body").to_html
 	end
 end

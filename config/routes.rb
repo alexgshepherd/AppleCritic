@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root to: 'movie#display_page'
+  root to: 'movie#ajax_load'
 
   # Example of regular route:
      #get 'update' => 'movie#update_database'

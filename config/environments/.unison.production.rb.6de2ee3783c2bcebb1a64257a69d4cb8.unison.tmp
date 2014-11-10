@@ -1,6 +1,8 @@
 #Yeah any kind of precompling is causing lots of JavaScript errors so I am simply 
 #running everything in development mode 
 
+#These configurations are just copied from development.rb
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

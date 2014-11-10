@@ -42,3 +42,4 @@ gem 'nokogiri'
 gem 'unirest'
 gem 'rails_12factor', group: :production
 gem 'unicorn'
+#gem 'aws-sdk'
