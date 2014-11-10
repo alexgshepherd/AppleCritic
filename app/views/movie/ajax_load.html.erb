@@ -48,7 +48,7 @@ new Ajax.Request('/movie/display_page', {
   onSuccess: function(response) {
     $('index').insert(response.responseText);
 
-    //For some reason this does work
+    //For some reason this does work on Nitrous.IO
 	var promoChildren = $A($$('#promofader1 a')); 
 	new AC.CrossfadeQueue(promoChildren, 'promofader1', 8, 'fader1', .5, .5);
 	var promoChildren = $A($$('#promofader2 a')); 

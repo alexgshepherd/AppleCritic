@@ -249,10 +249,7 @@ class MovieController < ApplicationController
 		modify_page
 		#write_page
 
-		#@page.to_html
 		render layout: false, body: @page.at_css("body").children.to_html
-		#render layout: false, body: "Hi"
 		#render "tmp/trailers.apple.com/index.html" #This is rendered in the body of the HTML
-		#render html: @page.at_css("body").to_html
 	end
 end
