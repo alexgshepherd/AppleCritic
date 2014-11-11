@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111001851) do
+ActiveRecord::Schema.define(version: 20141111032809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "body_copies", force: true do |t|
+    t.text     "block"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "logs", force: true do |t|
     t.date     "last_updated_at"
@@ -40,6 +46,12 @@ ActiveRecord::Schema.define(version: 20141111001851) do
   end
 
   create_table "site_copies", force: true do |t|
+    t.text     "block"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "whole_copies", force: true do |t|
     t.text     "block"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -2,6 +2,7 @@ require 'date'
 require 'unirest'
 require 'open-uri'
 require 'json'
+require 'nokogiri'
 
 FEED_LENGTH = 80
 APPLE_SITE = "http://trailers.apple.com"
@@ -126,8 +127,12 @@ def update_log
 	new_log.save
 end
 
-desc "This task is called by the Heroku scheduler add-on"
-task :update_database => :environment do
+def process_poster_text(text)
+	return text if text.include? "http"
+	"#{APPLE_SITE}#{text}"
+end
+
+def update_database
 	appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
 	(0..FEED_LENGTH - 1).each do |i|
 		unless Movie.find_by(title: appleFeed[i]["title"])
@@ -141,7 +146,7 @@ task :update_database => :environment do
 			fill_imdb_info(appleFeed, i)
 			
 			@movie.trailer_url = APPLE_SITE + appleFeed[i]["location"]
-			@movie.poster_url = appleFeed[i]["poster"]
+			@movie.poster_url = process_poster_text(appleFeed[i]["poster"])
 			@movie.save
 
 			obey_rt_access_rules(i)
@@ -151,8 +156,21 @@ task :update_database => :environment do
 	update_log
 end
 
-require 'nokogiri'
-#require 'rubygems'
+desc "This task is called by the Heroku scheduler add-on"
+task :update_trailer_list => :environment do
+	update_database
+	whole_to_body
+end
+
+
+
+
+
+
+
+
+
+
 FILMS_DISPLAYED = 30
 MAX_TITLE_LENGTH = 23
 
@@ -228,21 +246,6 @@ end
 def add_imdb_text(span_node, this_movie)
 	text = Nokogiri::XML::Text.new(this_movie.imdb_rating.to_s, @page)
 	span_node.add_child(text)
-end
-
-def fetch_page
-	#Get the HTML/CSS/other files for the complete Apple Trailers @page
-	#To view locally offline, add --convert-links after --quiet
-	#system('wget -P tmp -p --user-agent="' + request.env["HTTP_USER_AGENT"] + 
-	#			'" --header="Accept:' + request.env["HTTP_ACCEPT"] + '" --header="Accept-Language:' + 
-	#			request.env["HTTP_ACCEPT_LANGUAGE"] + '" ' + APPLE_SITE)
-
-	system('wget -P tmp -p --user-agent="' + 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36'\
-		'(KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36' + '" ' + APPLE_SITE)
-end
-
-def load_html
-	@page = Nokogiri::HTML(open("tmp/trailers.apple.com/index.html"))
 end
 
 def load_123
@@ -386,21 +389,53 @@ def wipe_temp
 	FileUtils.rm_rf('tmp/trailers.apple.com')
 end
 
-def save_body
-	SiteCopy.delete_all 
-	@SiteCopy = SiteCopy.new
-	@SiteCopy.block = @page.at_css("body").children.to_html
-	@SiteCopy.save
+def get_stored_whole_copy
+	@page = Nokogiri::HTML(WholeCopy.first.block)
+end
+
+def whole_to_body
+	get_stored_whole_copy
+	modify_page
+	update_trailer_list
+end
+
+def update_trailer_list
+	BodyCopy.delete_all
+	body = BodyCopy.new
+	body.block = @page.at_css("body").children.to_html
+	body.save
+end
+
+def fetch_page
+	#Get the HTML/CSS/other files for the complete Apple Trailers @page
+	#To view locally offline, add --convert-links after --quiet
+	#system('wget -P tmp -p --user-agent="' + request.env["HTTP_USER_AGENT"] + 
+	#			'" --header="Accept:' + request.env["HTTP_ACCEPT"] + '" --header="Accept-Language:' + 
+	#			request.env["HTTP_ACCEPT_LANGUAGE"] + '" ' + APPLE_SITE)
+
+	system('wget -P tmp -p --user-agent="' + 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36'\
+		'(KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36' + '" ' + APPLE_SITE)
+end
+
+def load_html
+	@whole = Nokogiri::HTML(open("tmp/trailers.apple.com/index.html"))
+end
+
+def save_whole_page
+	WholeCopy.delete_all 
+	whole = WholeCopy.new
+	whole.block = @whole.to_html
+	whole.save
 end
 
 desc "This task is called by the Heroku scheduler add-on"
-task :fetch_and_save_body => :environment do 
+task :update_outer_body => :environment do 
 	#wipe_temp  
 	fetch_page
 	load_html
-	modify_page
+	#modify_page
 	#write_page
-	save_body
+	save_whole_page
 
 	#old stuff
 	#render layout: false, body: @page.at_css("body").children.to_html

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SiteCopyTest < ActiveSupport::TestCase
+class BodyCopyTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
