@@ -1,1 +1,5 @@
-<h1>Nothing</h1>
+<% content_for(:head) do %>
+	<%= render "scripts" %>
+<% end %>
+
+<%= raw SiteCopy.first.block %>

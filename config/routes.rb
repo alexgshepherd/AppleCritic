@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  get 'movie/display_page'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root to: 'movie#ajax_load'
+  root to: 'movie#display_page'
 
   # Example of regular route:
      #get 'update' => 'movie#update_database'
