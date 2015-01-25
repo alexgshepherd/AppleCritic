@@ -1,5 +1,7 @@
 require 'nokogiri'
 
+APPLE_SITE = "http://trailers.apple.com"
+
 class WholeCopy < ActiveRecord::Base
 	def self.fetch_page
 		#Get the HTML/CSS/other files for the complete Apple Trailers @page
