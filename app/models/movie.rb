@@ -111,10 +111,10 @@ class Movie < ActiveRecord::Base
 
 	def self.push_later_movies_down(appleFeed, i)
 		j = i
-		while j < [FEED_LENGTH, Movie.count - 1].min
-			#we subtract one for the movie just inserted
-			id = Movie.find_by(:order => j).id
-			Movie.update(id, :order => j + 1)
+		while j < [FEED_LENGTH, Movie.count].min
+			m = Movie.find_by(order: j)
+			m.update(order: j + 1)
+			j = j + 1
 		end
 	end
 
