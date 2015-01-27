@@ -127,9 +127,11 @@ class Movie < ActiveRecord::Base
 		old_movie = Movie.find_by(title: appleFeed[i]["title"])
 		old_order = old_movie.order
 		new_order = i
-		new_movie = Movie.find_by(order: new_order)
-		new_movie.update(order: old_order)
-		old_movie.update(order: new_order)
+		if old_order != new_order
+			new_movie = Movie.find_by(order: new_order)
+			new_movie.update(order: old_order)
+			old_movie.update(order: new_order)
+		end
 	end
 
 	def self.obey_rt_access_rules(i)
