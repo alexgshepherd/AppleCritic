@@ -140,7 +140,7 @@ class Movie < ActiveRecord::Base
 	def self.shift_tail(i)
 		j = Movie.count
 		puts i
-		while j > i
+		while j > FEED_LENGTH - i
 			j = j - 1
 			Movie.find_by(order: j).update(order: j + i)
 		end
@@ -174,6 +174,7 @@ class Movie < ActiveRecord::Base
 	def self.update_database
 		appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
 		new_movies = self.find_how_many_are_new(appleFeed)
+		return unless new_movies != 0
 		self.shift_tail(new_movies)
 		self.erase_within_feed_length
 		
