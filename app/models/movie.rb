@@ -104,35 +104,6 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def self.assign_order_to_new_movie(appleFeed, i)
-		new_movie = Movie.find_by(title: appleFeed[i]["title"])
-		new_movie.update(order: i)
-	end
-
-	def self.push_later_movies_down(appleFeed, i)
-		j = i
-		while j < [FEED_LENGTH, Movie.count].min
-			m = Movie.find_by(order: j)
-			m.update(order: j + 1)
-			j = j + 1
-		end
-	end
-
-	def self.insert_and_push(appleFeed, i)
-		self.push_later_movies_down(appleFeed, i)
-		self.assign_order_to_new_movie(appleFeed, i)
-	end
-
-	def self.switch_orders(appleFeed, i)
-		old_movie = Movie.find_by(title: appleFeed[i]["title"])
-		old_order = old_movie.order
-		new_order = i
-		if old_order != new_order
-			new_movie = Movie.find_by(order: new_order)
-			new_movie.update(order: old_order)
-			old_movie.update(order: new_order)
-		end
-	end
 
 	def self.obey_rt_access_rules(i)
 		sleep(0.2) if i != FEED_LENGTH - 1
@@ -166,28 +137,61 @@ class Movie < ActiveRecord::Base
 		"#{APPLE_SITE}#{text}"
 	end
 
+	def self.shift_tail(i)
+		j = Movie.count
+		puts i
+		while j > i
+			j = j - 1
+			Movie.find_by(order: j).update(order: j + i)
+		end
+	end
+
+	def self.duplicate_found(title, i)
+		if title == Movie.find_by(order: 0).title
+			return true
+		else
+			return false
+		end
+	end
+
+	def self.find_how_many_are_new(appleFeed)
+		return FEED_LENGTH unless Movie.find_by(order: 0)
+		(0..FEED_LENGTH - 1).each do |i|
+			title = appleFeed[i]["title"]
+			if duplicate_found(title, i)
+				return i
+			end
+		end
+		return FEED_LENGTH
+	end
+
+	def self.erase_within_feed_length
+		(0..FEED_LENGTH - 1).each do |i|
+			Movie.find_by(order: i).destroy if Movie.find_by(order: i)	
+		end
+	end
+
 	def self.update_database
 		appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
-		(0..FEED_LENGTH - 1).each do |i|
-			unless Movie.find_by(title: appleFeed[i]["title"])
-				# Movie is new.
-				@movie = Movie.new
-				@movie.title = appleFeed[i]["title"]
-				@movie.release_date = appleFeed[i]["releasedate"]
+		new_movies = self.find_how_many_are_new(appleFeed)
+		self.shift_tail(new_movies)
+		self.erase_within_feed_length
+		
+		(0..FEED_LENGTH - 1).each do |i|	
+			@movie = Movie.new
+			@movie.title = appleFeed[i]["title"]
+			@movie.release_date = appleFeed[i]["releasedate"]
 
-				self.fill_rt_info(appleFeed, i)
-				self.fill_mc_info(appleFeed, i)
-				self.fill_imdb_info(appleFeed, i)
-				
-				@movie.trailer_url = APPLE_SITE + appleFeed[i]["location"]
-				@movie.poster_url = process_poster_text(appleFeed[i]["poster"])
-				@movie.save
+			self.fill_rt_info(appleFeed, i)
+			self.fill_mc_info(appleFeed, i)
+			self.fill_imdb_info(appleFeed, i)
+			
+			@movie.trailer_url = APPLE_SITE + appleFeed[i]["location"]
+			@movie.poster_url = process_poster_text(appleFeed[i]["poster"])
+			@movie.order = i
+			@movie.save	
 
-				self.obey_rt_access_rules(i)
-				self.insert_and_push(appleFeed, i)
-			else # Movie already exists.
-				self.switch_orders(appleFeed, i)
-			end
+			self.obey_rt_access_rules(i)				
 		end
 		Log.update_log
 	end

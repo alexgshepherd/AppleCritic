@@ -4,7 +4,7 @@ require 'open-uri'
 require 'json'
 require 'nokogiri'
 
-FEED_LENGTH = 80
+NUM_DISPLAYED = 90
 APPLE_SITE = "http://trailers.apple.com"
 NO_SCORE = -1
 NOT_FOUND = -2
@@ -152,7 +152,8 @@ class BodyCopy < ActiveRecord::Base
 	def self.insert_all_movies(main_div)
 		ul_node = Nokogiri::XML::Node.new('ul', @page)
 		main_div.add_child(ul_node)
-		(0..FEED_LENGTH - 1).each do |i|
+		total = [NUM_DISPLAYED, Movie.count].min
+		(0..total - 1).each do |i|
 			this_movie = Movie.find_by(order: i)
 			li_node = Nokogiri::XML::Node.new('li', @page)
 			li_node['id'] = "m" + i.to_s
