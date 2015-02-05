@@ -104,7 +104,6 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-
 	def self.obey_rt_access_rules(i)
 		sleep(0.2) if i != FEED_LENGTH - 1
 	end
@@ -139,10 +138,28 @@ class Movie < ActiveRecord::Base
 
 	def self.shift_tail(i)
 		j = Movie.count
-		puts i
 		while j > FEED_LENGTH - i
 			j = j - 1
 			Movie.find_by(order: j).update(order: j + i)
+		end
+	end
+
+	def self.delete_one_end_duplicate
+		total = Movie.count
+		Movie.find_by(order: FEED_LENGTH - 1).destroy
+		j = FEED_LENGTH
+		while j < total
+			Movie.find_by(order: j).update(order: j - 1)
+			j = j + 1
+		end
+	end
+
+	def self.last_is_duplicate
+		return false if !Movie.find_by(order: FEED_LENGTH)
+		if Movie.find_by(order: FEED_LENGTH - 1).title == Movie.find_by(order: FEED_LENGTH).title
+			return true
+		else
+			return false
 		end
 	end
 
@@ -175,6 +192,7 @@ class Movie < ActiveRecord::Base
 		appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
 		new_movies = self.find_how_many_are_new(appleFeed)
 		return unless new_movies != 0
+		self.delete_one_end_duplicate if self.last_is_duplicate
 		self.shift_tail(new_movies)
 		self.erase_within_feed_length
 		
