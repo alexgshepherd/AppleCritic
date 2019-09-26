@@ -11,6 +11,7 @@ class Movie < ActiveRecord::Base
 	NOT_FOUND = -2
 	RT_ALL_NOT_FOUND = [NOT_FOUND, NOT_FOUND, NOT_FOUND]
 	IURI_START = "http://www.omdbapi.com/?t="
+	IURI_FRAGMENT = "&apikey="
 	RT_FRAGMENT = "&@page_limit=1&@page=1&apikey="
 	RT_URI_START = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?q="
 
@@ -79,28 +80,33 @@ class Movie < ActiveRecord::Base
 
 	def self.form_omdb_uri(title, releasedate)
 		title = self.format_title_for_url(title)
+		year = "&y=" + self.parse_year(releasedate).to_s
 		omdb_uri = 
 			if releasedate 
-				IURI_START + title + "&y=" + self.parse_year(releasedate).to_s
+				format("%s%s%s%s%s", IURI_START, title, year, IURI_FRAGMENT, ENV["OMDB_API_KEY"]) 
 			else
-				IURI_START + title
+				format("%s%s%s%s", IURI_START, title, IURI_FRAGMENT, ENV["OMDB_API_KEY"])
 			end
 	end
 
 	def self.load_omdb_feed(omdb_uri)
-		omdbPage = Nokogiri::HTML(open(omdb_uri))
-		body = omdbPage.at_css "body"
-		omdbFeed = JSON.parse(body.content)
+		#omdbPage = Nokogiri::HTML(open(omdb_uri))
+		#body = omdbPage.at_css "body"
+		#omdbFeed = JSON.parse(body.content)
+		thing = open(omdb_uri)
+		omdbFeed = JSON.parse(thing.read)
 	end
 
 	def self.load_imdb(title, releasedate)
 		omdb_uri = self.form_omdb_uri(title, releasedate)
 		omdbFeed =self.load_omdb_feed(omdb_uri)
+		puts omdb_uri
 
 		if omdbFeed["Response"] != "True" || omdbFeed["imdbRating"] == "N/A" 
 	  		return [NOT_FOUND, NOT_FOUND]
 		else
-			return [omdbFeed["imdbRating"], format("http://www.imdb.com/title/%s", omdbFeed["imdbID"])]
+			return [omdbFeed["imdbRating"], omdbFeed["Metascore"], 
+				format("http://www.imdb.com/title/%s", omdbFeed["imdbID"])]
 		end
 	end
 
@@ -128,7 +134,8 @@ class Movie < ActiveRecord::Base
 	def self.fill_imdb_info(appleFeed, i)
 		imdb_info = self.load_imdb(appleFeed[i]["title"], appleFeed[i]["releasedate"])
 		@movie.imdb_rating = imdb_info[0]
-		@movie.imdb_url = imdb_info[1]
+		@movie.imdb_url = imdb_info[2]
+		@movie.metascore = imdb_info[1]
 	end
 
 	def self.process_poster_text(text)
@@ -192,17 +199,18 @@ class Movie < ActiveRecord::Base
 		appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
 		new_movies = self.find_how_many_are_new(appleFeed)
 		return unless new_movies != 0
-		self.delete_one_end_duplicate if self.last_is_duplicate
-		self.shift_tail(new_movies)
-		self.erase_within_feed_length
+		#self.delete_one_end_duplicate if self.last_is_duplicate
+		#self.shift_tail(new_movies)
+		#self.erase_within_feed_length
+		Movie.delete_all
 		
 		(0..FEED_LENGTH - 1).each do |i|	
 			@movie = Movie.new
 			@movie.title = appleFeed[i]["title"]
 			@movie.release_date = appleFeed[i]["releasedate"]
 
-			self.fill_rt_info(appleFeed, i)
-			self.fill_mc_info(appleFeed, i)
+			#self.fill_rt_info(appleFeed, i)
+			#self.fill_mc_info(appleFeed, i)
 			self.fill_imdb_info(appleFeed, i)
 			
 			@movie.trailer_url = APPLE_SITE + appleFeed[i]["location"]
@@ -212,6 +220,6 @@ class Movie < ActiveRecord::Base
 
 			self.obey_rt_access_rules(i)				
 		end
-		Log.update_log
+		#Log.update_log
 	end
 end

@@ -1,7 +1,7 @@
 desc "This task is called by the Heroku scheduler add-on"
 task :update_trailer_list => :environment do
 	Movie.update_database
-	BodyCopy.whole_to_body
+	#BodyCopy.whole_to_body
 end
 
 desc "This task is called by the Heroku scheduler add-on"

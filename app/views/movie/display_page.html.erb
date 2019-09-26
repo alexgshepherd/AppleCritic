@@ -1,5 +1,72 @@
-<% content_for(:head) do %>
-	<%= render "scripts" %>
-<% end %>
+<style type="text/css">
+    table {
+       border-collapse: collapse; 
+    }
+    .good {
+        border: 1px solid blue; 
+    }
+</style>
 
-<%= raw BodyCopy.first.block %>
+<main><body>
+<h3>Apple Trailers Companion</h3>
+Each column corresponds to one of the four Apple Trailers panels. A blue border means better ratings or reviews.<br><br>
+<table><tr>
+<td>
+<% Movie.where(order: 0..19).each do |record| %>
+  <% if record.imdb_rating != -2 %>
+  	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		<div class="good">
+  	<% end %> 
+	<%= record.title %><br>
+	  IMDB: <%= record.imdb_rating %><br>
+	  Metacritic: <%= record.metascore %><br><br>
+	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		</div>
+  	<% end %> 
+  <% end %>
+<% end %></td>
+<td>
+<% Movie.where(order: 20..39).each do |record| %>
+  <% if record.imdb_rating != -2 %>
+  	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		<div class="good">
+  	<% end %> 
+	<%= record.title %><br>
+	  IMDB: <%= record.imdb_rating %><br>
+	  Metacritic: <%= record.metascore %><br><br>
+	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		</div>
+  	<% end %> 
+  <% end %>
+<% end %></td>
+<td>
+<% Movie.where(order: 40..59).each do |record| %>
+  <% if record.imdb_rating != -2 %>
+  	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		<div class="good">
+  	<% end %> 
+	<%= record.title %><br>
+	  IMDB: <%= record.imdb_rating %><br>
+	  Metacritic: <%= record.metascore %><br><br>
+	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		</div>
+  	<% end %> 
+  <% end %>
+<% end %></td>
+<td>
+<% Movie.where(order: 60..79).each do |record| %>
+  <% if record.imdb_rating != -2 %>
+  	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		<div class="good">
+  	<% end %> 
+	<%= record.title %><br>
+	  IMDB: <%= record.imdb_rating %><br>
+	  Metacritic: <%= record.metascore %><br><br>
+	<% if record.imdb_rating >= 7 or record.metascore >= 70 %>
+  		</div>
+  	<% end %> 
+  <% end %>
+<% end %></td>
+</tr></table>
+<br>Movies are only listed when info exists. Many movies are upcoming so there is no info yet. The OMDB feed is also missing many films. In a future update to this site, a better source may be used.
+</body></main>
