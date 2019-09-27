@@ -13,8 +13,11 @@
 
 ActiveRecord::Schema.define(version: 20190926214724) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "body_copies", force: :cascade do |t|
-    t.text     "block",      limit: 65535
+    t.text     "block"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -26,24 +29,24 @@ ActiveRecord::Schema.define(version: 20190926214724) do
   end
 
   create_table "movies", force: :cascade do |t|
-    t.string   "title",        limit: 255
-    t.text     "poster_url",   limit: 65535
-    t.text     "trailer_url",  limit: 65535
+    t.string   "title"
+    t.text     "poster_url"
+    t.text     "trailer_url"
     t.date     "release_date"
-    t.integer  "tomatometer",  limit: 4
-    t.integer  "metascore",    limit: 4
-    t.decimal  "imdb_rating",                precision: 2, scale: 1
-    t.integer  "audience",     limit: 4
-    t.text     "rt_url",       limit: 65535
-    t.text     "mc_url",       limit: 65535
-    t.text     "imdb_url",     limit: 65535
-    t.integer  "order",        limit: 4
+    t.integer  "tomatometer"
+    t.integer  "metascore"
+    t.decimal  "imdb_rating",  precision: 2, scale: 1
+    t.integer  "audience"
+    t.text     "rt_url"
+    t.text     "mc_url"
+    t.text     "imdb_url"
+    t.integer  "order"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "whole_copies", force: :cascade do |t|
-    t.text     "block",      limit: 65535
+    t.text     "block"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
