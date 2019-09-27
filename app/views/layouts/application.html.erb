@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AppleCritic</title>
-  <%= yield(:head) -%>
+  <title>Apple Trailers Companion</title>
+<style>
+table {
+   border-collapse: collapse; 
+}
+.good {
+    border: 1px solid blue; 
+}
+</style> 
 </head>
-<body class="trailers" id="index">
+<body>
 <%= yield %>
 </body>
 </html>
