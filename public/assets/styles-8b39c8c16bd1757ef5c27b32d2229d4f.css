@@ -1,0 +1,6 @@
+table {
+   border-collapse: collapse; 
+}
+.good {
+    border: 1px solid blue; 
+}

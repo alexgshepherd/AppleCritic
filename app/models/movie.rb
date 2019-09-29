@@ -179,14 +179,14 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.find_how_many_are_new(appleFeed)
-		return FEED_LENGTH unless Movie.find_by(order: 0)
-		(0..FEED_LENGTH - 1).each do |i|
+		return appleFeed.count unless Movie.find_by(order: 0)
+		(0..appleFeed.count - 1).each do |i|
 			title = appleFeed[i]["title"]
 			if duplicate_found(title, i)
 				return i
 			end
 		end
-		return FEED_LENGTH
+		return appleFeed.count
 	end
 
 	def self.erase_within_feed_length
@@ -204,7 +204,8 @@ class Movie < ActiveRecord::Base
 		#self.erase_within_feed_length
 		Movie.delete_all
 		
-		(0..FEED_LENGTH - 1).each do |i|	
+		puts appleFeed.count
+		(0..appleFeed.count - 1).each do |i|	
 			@movie = Movie.new
 			@movie.title = appleFeed[i]["title"]
 			@movie.release_date = appleFeed[i]["releasedate"]

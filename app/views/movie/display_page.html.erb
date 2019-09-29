@@ -4,7 +4,7 @@ metascore_threshold = 70 %>
 A blue border means better ratings or reviews.<br><br>
 <table><tr><th>Front Page</th><th>Panel 2</th><th>Panel 3</th><th>Panel 4</th></tr><tr>
 <td>
-<% Movie.where(order: 0..19).each do |record| %>
+<% Movie.where(order: 0..29).each do |record| %>
   <% if record.imdb_rating != -2 %>
   	<% if record.imdb_rating >= rating_threshold or record.metascore >= 70 %>
   		<div class="good">
@@ -18,7 +18,7 @@ A blue border means better ratings or reviews.<br><br>
   <% end %>
 <% end %></td>
 <td>
-<% Movie.where(order: 20..39).each do |record| %>
+<% Movie.where(order: 30..59).each do |record| %>
   <% if record.imdb_rating != -2 %>
   	<% if record.imdb_rating >= rating_threshold or record.metascore >= 70 %>
   		<div class="good">
@@ -32,7 +32,7 @@ A blue border means better ratings or reviews.<br><br>
   <% end %>
 <% end %></td>
 <td>
-<% Movie.where(order: 40..59).each do |record| %>
+<% Movie.where(order: 60..89).each do |record| %>
   <% if record.imdb_rating != -2 %>
   	<% if record.imdb_rating >= rating_threshold or record.metascore >= 70 %>
   		<div class="good">
@@ -46,7 +46,7 @@ A blue border means better ratings or reviews.<br><br>
   <% end %>
 <% end %></td>
 <td>
-<% Movie.where(order: 60..79).each do |record| %>
+<% Movie.where(order: 90..119).each do |record| %>
   <% if record.imdb_rating != -2 %>
   	<% if record.imdb_rating >= rating_threshold or record.metascore >= 70 %>
   		<div class="good">
