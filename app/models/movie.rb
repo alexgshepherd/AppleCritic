@@ -197,8 +197,8 @@ class Movie < ActiveRecord::Base
 
 	def self.update_database
 		appleFeed = JSON.parse(open("http://trailers.apple.com/trailers/home/feeds/just_added.json").read)
-		new_movies = self.find_how_many_are_new(appleFeed)
-		return unless new_movies != 0
+		#new_movies = self.find_how_many_are_new(appleFeed)
+		#return unless new_movies != 0
 		#self.delete_one_end_duplicate if self.last_is_duplicate
 		#self.shift_tail(new_movies)
 		#self.erase_within_feed_length
@@ -219,7 +219,7 @@ class Movie < ActiveRecord::Base
 			@movie.order = i
 			@movie.save	
 
-			self.obey_rt_access_rules(i)				
+			#self.obey_rt_access_rules(i)				
 		end
 		#Log.update_log
 	end
