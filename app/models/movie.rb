@@ -22,7 +22,11 @@ class Movie < ActiveRecord::Base
 		elsif !releasedate 
 			releaseyear = nil
 		else
-			releaseyear = (Date.parse releasedate).year
+			begin
+				releaseyear = (Date.parse releasedate).year
+			rescue ArgumentError
+				releaseyear = nil
+			end
 		end
 	end
 
@@ -80,6 +84,8 @@ class Movie < ActiveRecord::Base
 
 	def self.form_omdb_uri(title, releasedate)
 		title = self.format_title_for_url(title)
+		puts title
+		puts releasedate 
 		year = "&y=" + self.parse_year(releasedate).to_s
 		omdb_uri = 
 			if releasedate 
@@ -100,7 +106,7 @@ class Movie < ActiveRecord::Base
 	def self.load_imdb(title, releasedate)
 		omdb_uri = self.form_omdb_uri(title, releasedate)
 		omdbFeed =self.load_omdb_feed(omdb_uri)
-		puts omdb_uri
+		
 
 		if omdbFeed["Response"] != "True" || omdbFeed["imdbRating"] == "N/A" 
 	  		return [NOT_FOUND, NOT_FOUND]
